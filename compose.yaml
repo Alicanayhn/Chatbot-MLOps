@@ -1,0 +1,47 @@
+services:
+  mlflow:
+    build: ./Mlflow
+    image: mlflow_server 
+    container_name: mlflow-server-ops
+    env_file:
+      - ./env/mlflow.env
+    ports:
+      - "5001:5000"
+    command: sh -lc 'mlflow server --backend-store-uri "$$DATABASE_URL" --default-artifact-root "$$MLFLOW_ARTIFACT_ROOT" --host "$${MLFLOW_HOST:-0.0.0.0}"' 
+    depends_on:
+      - db
+    networks:
+      - mlflow-back
+      - mlflow-shared-net
+  
+  db:
+    image: postgres:15
+    container_name: postgres-db-mlflow
+    hostname: mlflow-db
+    env_file:
+      - ./env/db.env
+    volumes:
+      - ./postgres_mlflow_data:/var/lib/postgresql/data
+    networks:
+      - mlflow-back
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-mlflow
+    ports:
+      - "5050:80"
+    env_file:
+      - ./env/pgadmin.env
+    networks:
+      - mlflow-back
+      - mlflow-shared-net
+    depends_on:
+      - db
+
+volumes:
+  postgres_mlflow_data:
+
+networks:
+  mlflow-back:
+  mlflow-shared-net:
+    external: true  
+    name: mlflow-shared-net
