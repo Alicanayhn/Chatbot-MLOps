@@ -21,7 +21,7 @@ jobs:
               run: echo "${{ secrets.DB_ENV }}" > env/db.env
             
             - name: Take env files from secrets for mlflow
-              run: echo "${{ secrets.MLFLOW_ENV }}"
+              run: echo "${{ secrets.MLFLOW_ENV }}" > env/mlflow.env
 
             - name: Docker compose up
               run: docker compose up --build
