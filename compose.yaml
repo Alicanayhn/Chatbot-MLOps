@@ -10,6 +10,7 @@ services:
     command: sh -lc 'mlflow server --backend-store-uri "$$DATABASE_URL" --default-artifact-root "$$MLFLOW_ARTIFACT_ROOT" --host "$${MLFLOW_HOST:-0.0.0.0}"' 
     depends_on:
       - db
+    restart: on-failure
     networks:
       - mlflow-back
       - mlflow-shared-net

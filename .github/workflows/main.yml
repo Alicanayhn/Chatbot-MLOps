@@ -1,27 +1,27 @@
-name: Actions for Chatbot-MLOps
+# name: Actions for Chatbot-MLOps
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-        - main
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#         - main
 
-jobs:
-    DEV:
-        runs-on: ubuntu-latest
-        steps: 
-            - name: Take files from repo
-              uses: actions/checkout@v4
+# jobs:
+#     DEV:
+#         runs-on: ubuntu-latest
+#         steps: 
+#             - name: Take files from repo
+#               uses: actions/checkout@v4
             
-            - name: Create env folder
-              run: | 
-                mkdir env
+#             - name: Create env folder
+#               run: | 
+#                 mkdir env
             
-            - name: Take env files from secrets for mlflow database
-              run: echo "${{ secrets.DB_ENV }}" > env/db.env
+#             - name: Take env files from secrets for mlflow database
+#               run: echo "${{ secrets.DB_ENV }}" > env/db.env
             
-            - name: Take env files from secrets for mlflow
-              run: echo "${{ secrets.MLFLOW_ENV }}" > env/mlflow.env
+#             - name: Take env files from secrets for mlflow
+#               run: echo "${{ secrets.MLFLOW_ENV }}" > env/mlflow.env
 
-            - name: Docker compose up
-              run: docker compose up --build
+#             - name: Docker compose up
+#               run: docker compose up --build
